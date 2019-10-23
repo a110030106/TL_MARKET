@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wfs.tlmarket.mapper.DiscountsInfoMapper">
+  <resultMap id="BaseResultMap" type="com.wfs.tlmarket.models.DiscountsInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="DISCOUNTS_NO" jdbcType="VARCHAR" property="discountsNo" />
+    <result column="USER_NO" jdbcType="VARCHAR" property="userNo" />
+    <result column="DISCOUNTS_TYPE" jdbcType="VARCHAR" property="discountsType" />
+    <result column="DISCOUNTS_PRICE" jdbcType="DECIMAL" property="discountsPrice" />
+    <result column="DISCOUNTS_REMARK" jdbcType="DECIMAL" property="discountsRemark" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="CREATED_BY" jdbcType="VARCHAR" property="createdBy" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_BY" jdbcType="VARCHAR" property="updatedBy" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, DISCOUNTS_NO, USER_NO, DISCOUNTS_TYPE, DISCOUNTS_PRICE, DISCOUNTS_REMARK, STATUS, 
+    CREATED_BY, CREATED_AT, UPDATED_BY, UPDATED_AT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from M_DISCOUNTS_INFO
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from M_DISCOUNTS_INFO
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wfs.tlmarket.models.DiscountsInfo">
+    insert into M_DISCOUNTS_INFO (ID, DISCOUNTS_NO, USER_NO, 
+      DISCOUNTS_TYPE, DISCOUNTS_PRICE, DISCOUNTS_REMARK, 
+      STATUS, CREATED_BY, CREATED_AT, 
+      UPDATED_BY, UPDATED_AT)
+    values (#{id,jdbcType=INTEGER}, #{discountsNo,jdbcType=VARCHAR}, #{userNo,jdbcType=VARCHAR}, 
+      #{discountsType,jdbcType=VARCHAR}, #{discountsPrice,jdbcType=DECIMAL}, #{discountsRemark,jdbcType=DECIMAL}, 
+      #{status,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wfs.tlmarket.models.DiscountsInfo">
+    insert into M_DISCOUNTS_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="discountsNo != null">
+        DISCOUNTS_NO,
+      </if>
+      <if test="userNo != null">
+        USER_NO,
+      </if>
+      <if test="discountsType != null">
+        DISCOUNTS_TYPE,
+      </if>
+      <if test="discountsPrice != null">
+        DISCOUNTS_PRICE,
+      </if>
+      <if test="discountsRemark != null">
+        DISCOUNTS_REMARK,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createdBy != null">
+        CREATED_BY,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedBy != null">
+        UPDATED_BY,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="discountsNo != null">
+        #{discountsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="discountsType != null">
+        #{discountsType,jdbcType=VARCHAR},
+      </if>
+      <if test="discountsPrice != null">
+        #{discountsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountsRemark != null">
+        #{discountsRemark,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wfs.tlmarket.models.DiscountsInfo">
+    update M_DISCOUNTS_INFO
+    <set>
+      <if test="discountsNo != null">
+        DISCOUNTS_NO = #{discountsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null">
+        USER_NO = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="discountsType != null">
+        DISCOUNTS_TYPE = #{discountsType,jdbcType=VARCHAR},
+      </if>
+      <if test="discountsPrice != null">
+        DISCOUNTS_PRICE = #{discountsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountsRemark != null">
+        DISCOUNTS_REMARK = #{discountsRemark,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        CREATED_BY = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        UPDATED_BY = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wfs.tlmarket.models.DiscountsInfo">
+    update M_DISCOUNTS_INFO
+    set DISCOUNTS_NO = #{discountsNo,jdbcType=VARCHAR},
+      USER_NO = #{userNo,jdbcType=VARCHAR},
+      DISCOUNTS_TYPE = #{discountsType,jdbcType=VARCHAR},
+      DISCOUNTS_PRICE = #{discountsPrice,jdbcType=DECIMAL},
+      DISCOUNTS_REMARK = #{discountsRemark,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATED_BY = #{createdBy,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_BY = #{updatedBy,jdbcType=VARCHAR},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

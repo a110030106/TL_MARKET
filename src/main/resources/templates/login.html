@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+<body>
+    <h1>登录</h1>
+    <form action="/auth">
+        <input name="userName" type="text" /><br>
+        <input name="password" type="text" ><br>
+        <input name="submit" type="submit" value="登录">
+        <input id="registerBtn" type="button" value="注册" />
+    </form>
+    <div th:if="${response} != null">
+        <p th:text="${response.getErrorMsg()}"></p>
+    </div>
+
+    <script type="text/javascript" rel="stylesheet" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script type="text/javascript" >
+        var $registerBtn = $('#registerBtn');
+        console.log($registerBtn)
+        $registerBtn.on('click', function () {
+            window.location.href= "/register";
+        })
+    </script>
+</body>
+</html>
