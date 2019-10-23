@@ -1,8 +1,7 @@
 package com.wfs.tlmarket.serviceImpl;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import com.wfs.tlmarket.mapper.UserInfoMapper;
-import com.wfs.tlmarket.models.Response;
+import com.wfs.tlmarket.service.response.Response;
 import com.wfs.tlmarket.models.UserInfo;
 import com.wfs.tlmarket.service.UserService;
 import com.wfs.tlmarket.utils.MD5Util;
@@ -10,12 +9,12 @@ import com.wfs.tlmarket.utils.SqeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.security.provider.MD5;
 
 import java.util.Date;
 
 /**
  * 创建人：王福顺  创建时间：2019/10/23
+ * 服务 实现类
  */
 @Service
 @Slf4j

@@ -1,4 +1,4 @@
-package com.wfs.tlmarket.models;
+package com.wfs.tlmarket.service.response;
 
 import lombok.Data;
 import lombok.ToString;
@@ -8,8 +8,9 @@ import lombok.ToString;
  */
 @Data
 @ToString
-public class Response {
+public class Response<T> {
     private Boolean isSuccess = true;
     private String errorCode;
     private String errorMsg;
+    private T result;
 }

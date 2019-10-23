@@ -1,6 +1,6 @@
 package com.wfs.tlmarket.service;
 
-import com.wfs.tlmarket.models.Response;
+import com.wfs.tlmarket.service.response.Response;
 import com.wfs.tlmarket.models.UserInfo;
 
 /**

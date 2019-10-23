@@ -1,6 +1,6 @@
 package com.wfs.tlmarket.controller;
 
-import com.wfs.tlmarket.models.Response;
+import com.wfs.tlmarket.service.response.Response;
 import com.wfs.tlmarket.models.UserInfo;
 
 import com.wfs.tlmarket.service.UserService;
@@ -13,27 +13,32 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 创建人：王福顺  创建时间：2019/10/22
  */
 @RestController
-public class LoginController {
+public class UserController {
 
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private HttpSession session;
 
     @Autowired
     private UserService userService;
 
     @RequestMapping("/")
     public ModelAndView index(Model model, HttpServletResponse response) {
-        // 设置cookie(测试)
-//        setCookie(response);
-
         // 检查cookie中 有无账户信息
         UserInfo userInfo = checkCookieUserName();
-        model.addAttribute("userInfo",userInfo);
+        if (null != userInfo) {
+            auth(userInfo.getUserName(), userInfo.getPassword(), response, model);
+        }
 
        return new ModelAndView("index");
     }
@@ -46,6 +51,16 @@ public class LoginController {
     public ModelAndView login() {
 
         return new ModelAndView("login");
+    }
+
+    /**
+     * 注销
+     * @return
+     */
+    @RequestMapping("/logout")
+    public ModelAndView logout() {
+        session.removeAttribute("userInfo");
+        return new ModelAndView("index");
     }
 
     /**
@@ -65,10 +80,12 @@ public class LoginController {
         if (response.getIsSuccess()) {
             // 成功 存 cookie
             setCookie(httpResponse, userName, password);
+            session.setAttribute("userInfo", userInfo);
         }else {
             // 失败
             return new ModelAndView("login");
         }
+        // 成功 进入首页
         return new ModelAndView("redirect:/");
     }
 
@@ -134,7 +151,7 @@ public class LoginController {
     }
 
     /**
-     * 设置cookie 测试用
+     * 设置cookie
      * @param response
      */
     private void setCookie(HttpServletResponse response, String userName, String password) {

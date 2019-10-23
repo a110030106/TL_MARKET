@@ -6,14 +6,27 @@
 </head>
 <body>
     <h1>首页</h1>
+    <form action="/search" method="get">
+        <input name="searchName" type="text" />
+        <input type="submit" value="搜索" />
+    </form>
 
-    <div th:if="${userInfo} == null">
+    <div th:if="${response} != null">
+        <div th:each="user:${response.getResult()}">
+            <p th:text="${user.goodsName}"></p>
+        </div>
+    </div>
+    <p th:if="${response} == null" >未找到相关搜索</p>
+
+
+    <div th:if="${session.userInfo} == null" >
         <a href="/register" >注册</a>
         <a href="/login">登录</a>
     </div>
-    <div th:if="${userInfo} != null">
-        <p th:text="${userInfo.userName}" ></p>
-        <p th:text="${userInfo.password}" ></p>
+    <div th:if="${session.userInfo} != null">
+        <p th:text="${session.userInfo.userName}" ></p>
+        <p th:text="${session.userInfo.password}" ></p>
+        <a href="/logout">注销</a>
     </div>
 
 

@@ -9,7 +9,7 @@
     <result column="GOODS_SPECIFY" jdbcType="VARCHAR" property="goodsSpecify" />
     <result column="GOODS_PRICE" jdbcType="DECIMAL" property="goodsPrice" />
     <result column="GOODS_PHTOT" jdbcType="VARCHAR" property="goodsPhtot" />
-    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="STATUS" jdbcType="TINYINT" property="status" />
     <result column="CREATED_BY" jdbcType="VARCHAR" property="createdBy" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_BY" jdbcType="VARCHAR" property="updatedBy" />
@@ -25,6 +25,15 @@
     from M_GOODS_INFO
     where ID = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByGoodsName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from M_GOODS_INFO
+    where GOODS_NAME LIKE #{goodsName,jdbcType=VARCHAR}
+    and STATUS = 1
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from M_GOODS_INFO
     where ID = #{id,jdbcType=INTEGER}
@@ -37,7 +46,7 @@
       )
     values (#{id,jdbcType=INTEGER}, #{goodsNo,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
       #{goodsType,jdbcType=VARCHAR}, #{goodsSpecify,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DECIMAL}, 
-      #{goodsPhtot,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, 
+      #{goodsPhtot,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{createdBy,jdbcType=VARCHAR},
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -104,7 +113,7 @@
         #{goodsPhtot,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
-        #{status,jdbcType=VARCHAR},
+        #{status,jdbcType=TINYINT},
       </if>
       <if test="createdBy != null">
         #{createdBy,jdbcType=VARCHAR},
@@ -142,7 +151,7 @@
         GOODS_PHTOT = #{goodsPhtot,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
-        STATUS = #{status,jdbcType=VARCHAR},
+        STATUS = #{status,jdbcType=TINYINT},
       </if>
       <if test="createdBy != null">
         CREATED_BY = #{createdBy,jdbcType=VARCHAR},
@@ -167,7 +176,7 @@
       GOODS_SPECIFY = #{goodsSpecify,jdbcType=VARCHAR},
       GOODS_PRICE = #{goodsPrice,jdbcType=DECIMAL},
       GOODS_PHTOT = #{goodsPhtot,jdbcType=VARCHAR},
-      STATUS = #{status,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=TINYINT},
       CREATED_BY = #{createdBy,jdbcType=VARCHAR},
       CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       UPDATED_BY = #{updatedBy,jdbcType=VARCHAR},
