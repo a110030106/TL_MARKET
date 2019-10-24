@@ -43,6 +43,7 @@ public class UserController {
         // 检查cookie中 有无账户信息
         UserInfo userInfo = checkCookieUserName();
         if (null != userInfo) {
+            System.out.println("有账号信息");
             auth(userInfo.getUserName(), userInfo.getPassword(), httpResponse, model);
         }
         // 首页信息
@@ -66,9 +67,29 @@ public class UserController {
      * @return
      */
     @RequestMapping("/logout")
-    public ModelAndView logout() {
+    public ModelAndView logout(HttpServletResponse httpResponse) {
         session.removeAttribute(Constants.SESSION_USER_INFO);
+        removeCookie(httpResponse);
         return new ModelAndView("index");
+    }
+
+    /**
+     * 删除cookie中 用户信息
+     */
+    private void removeCookie(HttpServletResponse httpServletResponse) {
+        Cookie[] cookies = request.getCookies();
+        String tlUserNameKey;
+        String tlPasswordKey;
+        for (Cookie cookie : cookies) {
+            tlUserNameKey = cookie.getName();
+            tlPasswordKey = cookie.getName();
+            if (tlUserNameKey.equals(Constants.COOKIE_USER_NAME)  ||  tlPasswordKey.equals(Constants.COOKIE_PASSWORD)) {
+                cookie.setValue(null);
+                cookie.setMaxAge(0);
+                httpServletResponse.addCookie(cookie);
+                System.out.println("删除cookie");
+            }
+        }
     }
 
     /**

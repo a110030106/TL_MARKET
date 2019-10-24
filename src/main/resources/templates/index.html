@@ -16,6 +16,7 @@
         <div th:if="${session.userInfo} != null">
             <span th:text="${session.userInfo.userName}" ></span>  &nbsp
             <span th:text="${session.userInfo.password}" ></span>
+            <input type="button" value="个人中心" />
             <a href="/logout">注销</a>
         </div>
     <form action="/search" method="get">
@@ -25,8 +26,25 @@
     </div>
     <br>
 
+    <!-- 选择分类区 -->
+    <div style="border: 1px solid blue">
+        <h2>商品分类区</h2>
+        <a href="/findGoodsList?goodsType=1" >零食</a>
+        <a href="/findGoodsList?goodsType=2" >生活用品</a>
+        <a href="/findGoodsList?goodsType=3" >饮料</a>
+        <a href="/findGoodsList?goodsType=4" >类型4</a>
+        <a href="/findGoodsList?goodsType=5" >类型5</a>
+    </div>
+    <br>
+
+    <!-- 活动区 -->
+    <div style="border: 1px solid red">
+        <h2>限时活动区</h2>
+    </div>
+    <br>
+
     <!-- 商品区 -->
-    <div th:if="${session.goodsListResponse} != null">
+    <div th:if="${session.goodsListResponse} != null" style="border: 1px solid blue;">
         <h2>商品区</h2>
         <div th:each="goods:${session.goodsListResponse.result}">
             <span th:text="${goods.goodsName}"></span> &nbsp
@@ -35,8 +53,17 @@
             <span th:text="${goods.goodsPhoto}"></span> &nbsp
         </div>
     </div>
+    <br>
 
-    <a th:href="/shopCar"></a>
+    <!-- 页脚区 -->
+    <div>
+        <h2>页脚区</h2>
+        <a href="/">首页</a> &nbsp
+        <a href="#">我的优惠券</a> &nbsp
+        <a href="#">购物车</a> &nbsp
+        <a href="#">我的订单</a> &nbsp
+    </div>
+    <!--<a th:href="/shopCar"></a>-->
 
 
 

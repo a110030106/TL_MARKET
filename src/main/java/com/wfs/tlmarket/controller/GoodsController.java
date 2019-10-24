@@ -35,4 +35,14 @@ public class GoodsController {
         return new ModelAndView("index");
     }
 
+    @RequestMapping(value = "/findGoodsList", method = RequestMethod.GET)
+    public ModelAndView findGoodsList(int goodsType) {
+
+        Response<List<GoodsInfo>> goodsInfoList = goodsService.selectGoodsInfoList(goodsType);
+
+        session.setAttribute(Constants.SESSION_GOODS_LIST, goodsInfoList);
+
+        return new ModelAndView("index");
+    }
+
 }

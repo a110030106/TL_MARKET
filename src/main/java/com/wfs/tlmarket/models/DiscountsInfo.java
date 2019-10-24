@@ -20,6 +20,8 @@ public class DiscountsInfo {
 
     private Integer discountsRemark;
 
+
+
     private Byte status;
 
     private String createdBy;
