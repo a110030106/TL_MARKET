@@ -10,6 +10,9 @@ import lombok.ToString;
 @ToString
 public class Response<T> {
     private Boolean isSuccess = true;
+    /**
+     * errorCode 预留
+     */
     private String errorCode;
     private String errorMsg;
     private T result;

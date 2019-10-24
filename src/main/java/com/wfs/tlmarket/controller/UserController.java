@@ -1,5 +1,8 @@
 package com.wfs.tlmarket.controller;
 
+import com.wfs.tlmarket.constants.Constants;
+import com.wfs.tlmarket.models.GoodsInfo;
+import com.wfs.tlmarket.service.GoodsService;
 import com.wfs.tlmarket.service.response.Response;
 import com.wfs.tlmarket.models.UserInfo;
 
@@ -14,8 +17,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
 
 /**
  * 创建人：王福顺  创建时间：2019/10/22
@@ -32,14 +35,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private GoodsService goodsService;
+
     @RequestMapping("/")
-    public ModelAndView index(Model model, HttpServletResponse response) {
+    public ModelAndView index(Model model, HttpServletResponse httpResponse) {
         // 检查cookie中 有无账户信息
         UserInfo userInfo = checkCookieUserName();
         if (null != userInfo) {
-            auth(userInfo.getUserName(), userInfo.getPassword(), response, model);
+            auth(userInfo.getUserName(), userInfo.getPassword(), httpResponse, model);
         }
-
+        // 首页信息
+        Response<List<GoodsInfo>> indexResponse = goodsService.selectGoodsInfoList(0);
+        session.setAttribute(Constants.SESSION_GOODS_LIST, indexResponse);
        return new ModelAndView("index");
     }
 
@@ -59,7 +67,7 @@ public class UserController {
      */
     @RequestMapping("/logout")
     public ModelAndView logout() {
-        session.removeAttribute("userInfo");
+        session.removeAttribute(Constants.SESSION_USER_INFO);
         return new ModelAndView("index");
     }
 
@@ -76,11 +84,12 @@ public class UserController {
         userInfo.setUserName(userName);
         userInfo.setPassword(password);
         Response response = userService.auth(userInfo);
-        model.addAttribute("response",response);
+        // 本次的鉴权信息
+        model.addAttribute(Constants.MODEL_RESPONSE, response);
         if (response.getIsSuccess()) {
             // 成功 存 cookie
             setCookie(httpResponse, userName, password);
-            session.setAttribute("userInfo", userInfo);
+            session.setAttribute(Constants.SESSION_USER_INFO, userInfo);
         }else {
             // 失败
             return new ModelAndView("login");
@@ -109,7 +118,7 @@ public class UserController {
         // 注册业务
         Response response = userService.register(userInfo);
         // 传递结果
-        model.addAttribute("response",response);
+        model.addAttribute(Constants.MODEL_RESPONSE, response);
         // 失败跳转
         if (!response.getIsSuccess()) {
             return new ModelAndView("register");
@@ -132,11 +141,11 @@ public class UserController {
             for (Cookie cookie : cookies) {
                 tlUserNameKey = cookie.getName();
                 tlPasswordKey = cookie.getName();
-                if (tlUserNameKey.equals("tlUserName")) {
+                if (tlUserNameKey.equals(Constants.COOKIE_USER_NAME)) {
                     count++;
                     userInfo.setUserName(cookie.getValue());
                 }
-                if (tlPasswordKey.equals("tlPassword")) {
+                if (tlPasswordKey.equals(Constants.COOKIE_PASSWORD)) {
                     count++;
                     userInfo.setPassword(cookie.getValue());
                 }
@@ -155,10 +164,10 @@ public class UserController {
      * @param response
      */
     private void setCookie(HttpServletResponse response, String userName, String password) {
-        Cookie userNameCookie = new Cookie("tlUserName",userName);
-        Cookie passwordCookie = new Cookie("tlPassword",password);
-        userNameCookie.setMaxAge(3600 * 24 *7);
-        passwordCookie.setMaxAge(3600 * 24 *7);
+        Cookie userNameCookie = new Cookie(Constants.COOKIE_USER_NAME, userName);
+        Cookie passwordCookie = new Cookie(Constants.COOKIE_PASSWORD, password);
+        userNameCookie.setMaxAge(Constants.SEVEN_DAY_SEC);
+        passwordCookie.setMaxAge(Constants.SEVEN_DAY_SEC);
         response.addCookie(userNameCookie);
         response.addCookie(passwordCookie);
     }

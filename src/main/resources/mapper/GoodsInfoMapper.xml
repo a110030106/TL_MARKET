@@ -5,10 +5,12 @@
     <id column="ID" jdbcType="INTEGER" property="id" />
     <result column="GOODS_NO" jdbcType="VARCHAR" property="goodsNo" />
     <result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
-    <result column="GOODS_TYPE" jdbcType="VARCHAR" property="goodsType" />
+    <result column="GOODS_TYPE" jdbcType="INTEGER" property="goodsType" />
     <result column="GOODS_SPECIFY" jdbcType="VARCHAR" property="goodsSpecify" />
     <result column="GOODS_PRICE" jdbcType="DECIMAL" property="goodsPrice" />
-    <result column="GOODS_PHTOT" jdbcType="VARCHAR" property="goodsPhtot" />
+    <result column="GOODS_PHOTO" jdbcType="VARCHAR" property="goodsPhoto" />
+    <result column="IS_HOT" jdbcType="TINYINT" property="isHot" />
+    <result column="IS_NEW" jdbcType="TINYINT" property="isNew" />
     <result column="STATUS" jdbcType="TINYINT" property="status" />
     <result column="CREATED_BY" jdbcType="VARCHAR" property="createdBy" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
@@ -16,7 +18,7 @@
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, GOODS_NO, GOODS_NAME, GOODS_TYPE, GOODS_SPECIFY, GOODS_PRICE, GOODS_PHTOT, STATUS, 
+    ID, GOODS_NO, GOODS_NAME, GOODS_TYPE, GOODS_SPECIFY, GOODS_PRICE, GOODS_PHOTO, STATUS, IS_HOT, IS_NEW,
     CREATED_BY, CREATED_AT, UPDATED_BY, UPDATED_AT
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -34,6 +36,31 @@
     and STATUS = 1
   </select>
 
+  <select id="selectByGoodsType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from M_GOODS_INFO
+    where GOODS_TYPE = #{goodsType,jdbcType=INTEGER}
+    and STATUS = 1
+  </select>
+
+  <select id="selectByIsHot" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from M_GOODS_INFO
+    where IS_HOT = #{isHot,jdbcType=TINYINT}
+    and STATUS = 1
+  </select>
+
+  <select id="selectByIsNew" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from M_GOODS_INFO
+    where IS_NEW = #{isNew,jdbcType=TINYINT}
+    and IS_HOT = 0
+    and STATUS = 1
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from M_GOODS_INFO
     where ID = #{id,jdbcType=INTEGER}
@@ -41,12 +68,13 @@
   <insert id="insert" parameterType="com.wfs.tlmarket.models.GoodsInfo">
     insert into M_GOODS_INFO (ID, GOODS_NO, GOODS_NAME, 
       GOODS_TYPE, GOODS_SPECIFY, GOODS_PRICE, 
-      GOODS_PHTOT, STATUS, CREATED_BY, 
+      GOODS_PHOTO, STATUS, IS_HOT, IS_NEW, CREATED_BY,
       CREATED_AT, UPDATED_BY, UPDATED_AT
       )
     values (#{id,jdbcType=INTEGER}, #{goodsNo,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
-      #{goodsType,jdbcType=VARCHAR}, #{goodsSpecify,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DECIMAL}, 
-      #{goodsPhtot,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{createdBy,jdbcType=VARCHAR},
+      #{goodsType,jdbcType=INTEGER}, #{goodsSpecify,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DECIMAL},
+      #{goodsPhoto,jdbcType=VARCHAR}, #{isHot,jdbcType=TINYINT}, #{isNew,jdbcType=TINYINT},
+      #{status,jdbcType=TINYINT}, #{createdBy,jdbcType=VARCHAR},
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -71,8 +99,14 @@
       <if test="goodsPrice != null">
         GOODS_PRICE,
       </if>
-      <if test="goodsPhtot != null">
-        GOODS_PHTOT,
+      <if test="goodsPhoto != null">
+        GOODS_PHOTO,
+      </if>
+      <if test="isHot != null">
+        IS_HOT,
+      </if>
+      <if test="isNew != null">
+        IS_NEW,
       </if>
       <if test="status != null">
         STATUS,
@@ -101,7 +135,7 @@
         #{goodsName,jdbcType=VARCHAR},
       </if>
       <if test="goodsType != null">
-        #{goodsType,jdbcType=VARCHAR},
+        #{goodsType,jdbcType=INTEGER},
       </if>
       <if test="goodsSpecify != null">
         #{goodsSpecify,jdbcType=VARCHAR},
@@ -109,8 +143,14 @@
       <if test="goodsPrice != null">
         #{goodsPrice,jdbcType=DECIMAL},
       </if>
-      <if test="goodsPhtot != null">
-        #{goodsPhtot,jdbcType=VARCHAR},
+      <if test="goodsPhoto != null">
+        #{goodsPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="isHot != null">
+        #{isHot,jdbcType=TINYINT},
+      </if>
+      <if test="isNew != null">
+        #{isNew,jdbcType=TINYINT},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -139,7 +179,7 @@
         GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
       </if>
       <if test="goodsType != null">
-        GOODS_TYPE = #{goodsType,jdbcType=VARCHAR},
+        GOODS_TYPE = #{goodsType,jdbcType=INTEGER},
       </if>
       <if test="goodsSpecify != null">
         GOODS_SPECIFY = #{goodsSpecify,jdbcType=VARCHAR},
@@ -147,8 +187,14 @@
       <if test="goodsPrice != null">
         GOODS_PRICE = #{goodsPrice,jdbcType=DECIMAL},
       </if>
-      <if test="goodsPhtot != null">
-        GOODS_PHTOT = #{goodsPhtot,jdbcType=VARCHAR},
+      <if test="goodsPhoto != null">
+        GOODS_PHOTO = #{goodsPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="isHot != null">
+        IS_HOT = #{isHot,jdbcType=TINYINT},
+      </if>
+      <if test="isNew != null">
+        IS_NEW = #{isNew,jdbcType=TINYINT},
       </if>
       <if test="status != null">
         STATUS = #{status,jdbcType=TINYINT},
@@ -172,10 +218,12 @@
     update M_GOODS_INFO
     set GOODS_NO = #{goodsNo,jdbcType=VARCHAR},
       GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
-      GOODS_TYPE = #{goodsType,jdbcType=VARCHAR},
+      GOODS_TYPE = #{goodsType,jdbcType=INTEGER},
       GOODS_SPECIFY = #{goodsSpecify,jdbcType=VARCHAR},
       GOODS_PRICE = #{goodsPrice,jdbcType=DECIMAL},
-      GOODS_PHTOT = #{goodsPhtot,jdbcType=VARCHAR},
+      GOODS_PHOTO = #{goodsPhoto,jdbcType=VARCHAR},
+      IS_HOT = #{isHot,jdbcType=TINYINT},
+      IS_NEW = #{isNew,jdbcType=TINYINT},
       STATUS = #{status,jdbcType=TINYINT},
       CREATED_BY = #{createdBy,jdbcType=VARCHAR},
       CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},

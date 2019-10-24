@@ -3,6 +3,7 @@ package com.wfs.tlmarket.models;
 import lombok.Data;
 import lombok.ToString;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -18,9 +19,13 @@ public class GoodsInfo {
 
     private String goodsSpecify;
 
-    private Integer goodsPrice;
+    private BigDecimal goodsPrice;
 
-    private String goodsPhtot;
+    private String goodsPhoto;
+
+    private Byte isHot;
+
+    private Byte isNew;
 
     private Byte status;
 

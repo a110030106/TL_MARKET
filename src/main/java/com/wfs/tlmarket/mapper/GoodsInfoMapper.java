@@ -15,6 +15,9 @@ public interface GoodsInfoMapper {
     GoodsInfo selectByPrimaryKey(Integer id);
 
     List<GoodsInfo> selectByGoodsName(String goodsName);
+    List<GoodsInfo> selectByGoodsType(int goodsType);
+    List<GoodsInfo> selectByIsHot(int isHot);
+    List<GoodsInfo> selectByIsNew(int isNew);
 
     int updateByPrimaryKeySelective(GoodsInfo record);
 

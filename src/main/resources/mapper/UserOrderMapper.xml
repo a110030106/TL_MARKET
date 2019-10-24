@@ -8,7 +8,7 @@
     <result column="ORDER_STATUS" jdbcType="BIT" property="orderStatus" />
     <result column="ORDER_DISCOUNTS_NO" jdbcType="VARCHAR" property="orderDiscountsNo" />
     <result column="ORDER_AMOUNT" jdbcType="DECIMAL" property="orderAmount" />
-    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="STATUS" jdbcType="TINYINT" property="status" />
     <result column="CREATED_BY" jdbcType="VARCHAR" property="createdBy" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_BY" jdbcType="VARCHAR" property="updatedBy" />
@@ -35,7 +35,7 @@
       UPDATED_BY, UPDATED_AT)
     values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{userNo,jdbcType=VARCHAR}, 
       #{orderStatus,jdbcType=BIT}, #{orderDiscountsNo,jdbcType=VARCHAR}, #{orderAmount,jdbcType=DECIMAL}, 
-      #{status,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP},
       #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.wfs.tlmarket.models.UserOrder">
@@ -95,7 +95,7 @@
         #{orderAmount,jdbcType=DECIMAL},
       </if>
       <if test="status != null">
-        #{status,jdbcType=VARCHAR},
+        #{status,jdbcType=TINYINT},
       </if>
       <if test="createdBy != null">
         #{createdBy,jdbcType=VARCHAR},
@@ -130,7 +130,7 @@
         ORDER_AMOUNT = #{orderAmount,jdbcType=DECIMAL},
       </if>
       <if test="status != null">
-        STATUS = #{status,jdbcType=VARCHAR},
+        STATUS = #{status,jdbcType=TINYINT},
       </if>
       <if test="createdBy != null">
         CREATED_BY = #{createdBy,jdbcType=VARCHAR},
@@ -154,7 +154,7 @@
       ORDER_STATUS = #{orderStatus,jdbcType=BIT},
       ORDER_DISCOUNTS_NO = #{orderDiscountsNo,jdbcType=VARCHAR},
       ORDER_AMOUNT = #{orderAmount,jdbcType=DECIMAL},
-      STATUS = #{status,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=TINYINT},
       CREATED_BY = #{createdBy,jdbcType=VARCHAR},
       CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       UPDATED_BY = #{updatedBy,jdbcType=VARCHAR},

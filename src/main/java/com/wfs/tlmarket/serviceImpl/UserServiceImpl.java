@@ -4,9 +4,8 @@ import com.wfs.tlmarket.mapper.UserInfoMapper;
 import com.wfs.tlmarket.service.response.Response;
 import com.wfs.tlmarket.models.UserInfo;
 import com.wfs.tlmarket.service.UserService;
-import com.wfs.tlmarket.utils.MD5Util;
+import com.wfs.tlmarket.utils.AESUtil;
 import com.wfs.tlmarket.utils.SqeUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +16,17 @@ import java.util.Date;
  * 服务 实现类
  */
 @Service
-@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired(required = false)
     private UserInfoMapper userInfoMapper;
 
+
+    /**
+     * 注册
+     * @param userInfo
+     * @return
+     */
     @Override
     public Response register(UserInfo userInfo) {
         Response response = new Response();
@@ -37,7 +41,7 @@ public class UserServiceImpl implements UserService {
             response.setErrorMsg("用户已存在");
         }
         userInfo.setUserNo(SqeUtil.createUserNo());
-        userInfo.setPassword(MD5Util.md5(password));
+        userInfo.setPassword(AESUtil.Encrypt(password));
         // todo 如果没有，随机分配昵称
         userInfo.setUserNickName(userNickName);
         userInfo.setStatus((byte) 1);
@@ -54,11 +58,16 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * 登录鉴权
+     * @param userInfo
+     * @return
+     */
     @Override
     public Response auth(UserInfo userInfo) {
         Response response = new Response();
         String userName = userInfo.getUserName();
-        String password = MD5Util.md5(userInfo.getPassword());
+        String password = AESUtil.Encrypt(userInfo.getPassword());
         UserInfo checkUser = userInfoMapper.selectByUserName(userName);
         if (null == checkUser) {
             response.setIsSuccess(false);

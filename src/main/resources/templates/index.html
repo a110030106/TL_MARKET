@@ -6,28 +6,39 @@
 </head>
 <body>
     <h1>首页</h1>
+    <!-- 页头 区 -->
+    <div style="border:1px solid red;">
+        <h2>页头区</h2>
+        <div th:if="${session.userInfo} == null" >
+            <a href="/register" >注册</a>
+            <a href="/login">登录</a>
+        </div>
+        <div th:if="${session.userInfo} != null">
+            <span th:text="${session.userInfo.userName}" ></span>  &nbsp
+            <span th:text="${session.userInfo.password}" ></span>
+            <a href="/logout">注销</a>
+        </div>
     <form action="/search" method="get">
         <input name="searchName" type="text" />
         <input type="submit" value="搜索" />
     </form>
+    </div>
+    <br>
 
-    <div th:if="${response} != null">
-        <div th:each="user:${response.getResult()}">
-            <p th:text="${user.goodsName}"></p>
+    <!-- 商品区 -->
+    <div th:if="${session.goodsListResponse} != null">
+        <h2>商品区</h2>
+        <div th:each="goods:${session.goodsListResponse.result}">
+            <span th:text="${goods.goodsName}"></span> &nbsp
+            <span th:text="${goods.goodsSpecify}"></span> &nbsp
+            <span th:text="${goods.goodsPrice}"></span> &nbsp
+            <span th:text="${goods.goodsPhoto}"></span> &nbsp
         </div>
     </div>
-    <p th:if="${response} == null" >未找到相关搜索</p>
+
+    <a th:href="/shopCar"></a>
 
 
-    <div th:if="${session.userInfo} == null" >
-        <a href="/register" >注册</a>
-        <a href="/login">登录</a>
-    </div>
-    <div th:if="${session.userInfo} != null">
-        <p th:text="${session.userInfo.userName}" ></p>
-        <p th:text="${session.userInfo.password}" ></p>
-        <a href="/logout">注销</a>
-    </div>
 
 
     <!--<a href="/login">点</a><p th:text="${userInfo.userAge}"></p>-->

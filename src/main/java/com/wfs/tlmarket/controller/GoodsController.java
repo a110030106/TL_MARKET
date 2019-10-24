@@ -1,5 +1,6 @@
 package com.wfs.tlmarket.controller;
 
+import com.wfs.tlmarket.constants.Constants;
 import com.wfs.tlmarket.models.GoodsInfo;
 import com.wfs.tlmarket.service.GoodsService;
 import com.wfs.tlmarket.service.response.Response;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -21,11 +23,15 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
+    @Autowired
+    private HttpSession session;
+
     @RequestMapping(value = "/search", method= RequestMethod.GET)
-    public ModelAndView searchGoods(String searchName, Model model) {
+    public ModelAndView searchGoods(String searchName) {
 
         Response<List<GoodsInfo>> response = goodsService.searchGoods(searchName);
-        model.addAttribute("response",response);
+        session.setAttribute(Constants.SESSION_GOODS_LIST,response);
+
         return new ModelAndView("index");
     }
 

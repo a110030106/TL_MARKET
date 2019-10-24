@@ -8,7 +8,7 @@
     <result column="DISCOUNTS_TYPE" jdbcType="VARCHAR" property="discountsType" />
     <result column="DISCOUNTS_PRICE" jdbcType="DECIMAL" property="discountsPrice" />
     <result column="DISCOUNTS_REMARK" jdbcType="DECIMAL" property="discountsRemark" />
-    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="STATUS" jdbcType="TINYINT" property="status" />
     <result column="CREATED_BY" jdbcType="VARCHAR" property="createdBy" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_BY" jdbcType="VARCHAR" property="updatedBy" />
@@ -35,7 +35,7 @@
       UPDATED_BY, UPDATED_AT)
     values (#{id,jdbcType=INTEGER}, #{discountsNo,jdbcType=VARCHAR}, #{userNo,jdbcType=VARCHAR}, 
       #{discountsType,jdbcType=VARCHAR}, #{discountsPrice,jdbcType=DECIMAL}, #{discountsRemark,jdbcType=DECIMAL}, 
-      #{status,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP},
       #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.wfs.tlmarket.models.DiscountsInfo">
@@ -95,7 +95,7 @@
         #{discountsRemark,jdbcType=DECIMAL},
       </if>
       <if test="status != null">
-        #{status,jdbcType=VARCHAR},
+        #{status,jdbcType=TINYINT},
       </if>
       <if test="createdBy != null">
         #{createdBy,jdbcType=VARCHAR},
@@ -130,7 +130,7 @@
         DISCOUNTS_REMARK = #{discountsRemark,jdbcType=DECIMAL},
       </if>
       <if test="status != null">
-        STATUS = #{status,jdbcType=VARCHAR},
+        STATUS = #{status,jdbcType=TINYINT},
       </if>
       <if test="createdBy != null">
         CREATED_BY = #{createdBy,jdbcType=VARCHAR},
@@ -154,7 +154,7 @@
       DISCOUNTS_TYPE = #{discountsType,jdbcType=VARCHAR},
       DISCOUNTS_PRICE = #{discountsPrice,jdbcType=DECIMAL},
       DISCOUNTS_REMARK = #{discountsRemark,jdbcType=DECIMAL},
-      STATUS = #{status,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=TINYINT},
       CREATED_BY = #{createdBy,jdbcType=VARCHAR},
       CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       UPDATED_BY = #{updatedBy,jdbcType=VARCHAR},

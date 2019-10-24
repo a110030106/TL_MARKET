@@ -10,5 +10,18 @@ import java.util.List;
  */
 public interface GoodsService {
 
+    /**
+     * 搜索商品
+     * @param searchName
+     * @return
+     */
     public Response<List<GoodsInfo>> searchGoods(String searchName);
+
+    /**
+     * 根据类别查询
+     * @param goodsType
+     * @return
+     */
+    public Response<List<GoodsInfo>> selectGoodsInfoList(int goodsType);
+
 }

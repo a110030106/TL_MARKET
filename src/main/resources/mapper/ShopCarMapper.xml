@@ -7,7 +7,7 @@
     <result column="GOODS_NO" jdbcType="VARCHAR" property="goodsNo" />
     <result column="GOODS_PRICE" jdbcType="DECIMAL" property="goodsPrice" />
     <result column="GOODS_COUNT" jdbcType="DECIMAL" property="goodsCount" />
-    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="STATUS" jdbcType="TINYINT" property="status" />
     <result column="CREATED_BY" jdbcType="VARCHAR" property="createdBy" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_BY" jdbcType="VARCHAR" property="updatedBy" />
@@ -33,7 +33,7 @@
       CREATED_BY, CREATED_AT, UPDATED_BY, 
       UPDATED_AT)
     values (#{id,jdbcType=INTEGER}, #{userNo,jdbcType=VARCHAR}, #{goodsNo,jdbcType=VARCHAR}, 
-      #{goodsPrice,jdbcType=DECIMAL}, #{goodsCount,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{goodsPrice,jdbcType=DECIMAL}, #{goodsCount,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT},
       #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, 
       #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
@@ -88,7 +88,7 @@
         #{goodsCount,jdbcType=DECIMAL},
       </if>
       <if test="status != null">
-        #{status,jdbcType=VARCHAR},
+        #{status,jdbcType=TINYINT},
       </if>
       <if test="createdBy != null">
         #{createdBy,jdbcType=VARCHAR},
@@ -120,7 +120,7 @@
         GOODS_COUNT = #{goodsCount,jdbcType=DECIMAL},
       </if>
       <if test="status != null">
-        STATUS = #{status,jdbcType=VARCHAR},
+        STATUS = #{status,jdbcType=TINYINT},
       </if>
       <if test="createdBy != null">
         CREATED_BY = #{createdBy,jdbcType=VARCHAR},
@@ -143,7 +143,7 @@
       GOODS_NO = #{goodsNo,jdbcType=VARCHAR},
       GOODS_PRICE = #{goodsPrice,jdbcType=DECIMAL},
       GOODS_COUNT = #{goodsCount,jdbcType=DECIMAL},
-      STATUS = #{status,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=TINYINT},
       CREATED_BY = #{createdBy,jdbcType=VARCHAR},
       CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       UPDATED_BY = #{updatedBy,jdbcType=VARCHAR},
