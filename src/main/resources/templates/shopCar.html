@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+</head>
+<body>
+
+    <div th:each="goodsByShopCar:${shopCarResponse?.result}" >
+        商品名：    <span th:text="${goodsByShopCar.goodsInfo.goodsName}"></span> <br>
+        商品规格：  <span th:text="${goodsByShopCar.goodsInfo.goodsSpecify}"></span> <br>
+        商品单价：  <span th:text="${goodsByShopCar.goodsInfo.goodsPrice}"></span> <br>
+        数量：      <span th:text="${goodsByShopCar.shopCarGoods.goodsCount}"></span> <br>
+        商品总价：  <span th:text="${goodsByShopCar.shopCarGoods.goodsAmount}"></span> <br>
+        <br>
+        <br>
+    </div>
+
+
+
+
+
+</body>
+</html>

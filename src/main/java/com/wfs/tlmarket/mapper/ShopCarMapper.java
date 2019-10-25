@@ -1,18 +1,26 @@
 package com.wfs.tlmarket.mapper;
 
 
-import com.wfs.tlmarket.models.ShopCar;
+import com.wfs.tlmarket.models.ShopCarGoods;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface ShopCarMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(ShopCar record);
+    int insert(ShopCarGoods record);
 
-    int insertSelective(ShopCar record);
+    int insertSelective(ShopCarGoods record);
 
-    ShopCar selectByPrimaryKey(Integer id);
+    ShopCarGoods selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(ShopCar record);
+    ShopCarGoods selectByUserNoAndGoodsNo(@Param("userNo") String userNo, @Param("goodsNo") String goodsNo);
 
-    int updateByPrimaryKey(ShopCar record);
+    List<ShopCarGoods> selectByUserNo(String userNo);
+
+    int updateByUserNoAndGoodsNo(ShopCarGoods record);
+
+    int updateByPrimaryKeySelective(ShopCarGoods record);
+    int updateByPrimaryKey(ShopCarGoods record);
 }

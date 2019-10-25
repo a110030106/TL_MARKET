@@ -20,5 +20,5 @@ public interface UserService {
      * @param userInfo
      * @return
      */
-    public Response auth(UserInfo userInfo);
+    public Response<UserInfo> auth(UserInfo userInfo);
 }

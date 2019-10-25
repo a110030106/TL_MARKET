@@ -15,7 +15,7 @@
         </div>
         <div th:if="${session.userInfo} != null">
             <span th:text="${session.userInfo.userName}" ></span>  &nbsp
-            <span th:text="${session.userInfo.password}" ></span>
+            <span th:text="${session.userInfo.userNickName}" ></span>
             <input type="button" value="个人中心" />
             <a href="/logout">注销</a>
         </div>
@@ -46,11 +46,20 @@
     <!-- 商品区 -->
     <div th:if="${session.goodsListResponse} != null" style="border: 1px solid blue;">
         <h2>商品区</h2>
-        <div th:each="goods:${session.goodsListResponse.result}">
+        <div th:each="goods,goodsStat:${session.goodsListResponse.result}">
             <span th:text="${goods.goodsName}"></span> &nbsp
             <span th:text="${goods.goodsSpecify}"></span> &nbsp
             <span th:text="${goods.goodsPrice}"></span> &nbsp
             <span th:text="${goods.goodsPhoto}"></span> &nbsp
+            <form action="/addShopCar" method="get" >
+                <input type="hidden" name="userNo" th:value="${session?.userInfo?.userNo}" />
+                <input type="hidden" name="goodsNo" th:value="${goods.goodsNo}" />
+                <input type="hidden" name="goodsPrice" th:value="${goods.goodsPrice}" />
+                <input class="subButton" type="button" value="-" />
+                <input class="count" name="goodsCount" type="text" style="width: 20px" th:value="0"/>
+                <input class="addButton" type="button" value="+" />
+                <input type="submit" value="加入购物车" />
+            </form>
         </div>
     </div>
     <br>
@@ -60,7 +69,7 @@
         <h2>页脚区</h2>
         <a href="/">首页</a> &nbsp
         <a href="#">我的优惠券</a> &nbsp
-        <a href="#">购物车</a> &nbsp
+        <a href="/shopCar">购物车</a> &nbsp
         <a href="#">我的订单</a> &nbsp
     </div>
     <!--<a th:href="/shopCar"></a>-->
@@ -73,6 +82,23 @@
 
     <script type="text/javascript" rel="stylesheet" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
     <script type="text/javascript" >
+        var addButtons = $('.addButton');
+        $.each(addButtons, function (i) {
+            $(this).on('click', function () {
+                var countDone = $(this).prev();
+                countDone.val(parseInt(countDone.val()) + 1);
+            })
+        })
+        var subButtons = $('.subButton');
+        $.each(subButtons, function (i) {
+            $(this).on('click', function () {
+                var countDone = $(this).next();
+                countDone.val(parseInt(countDone.val()) - 1);
+            })
+        })
+
+
+
 
     </script>
     <!--<script type="text/javascript" rel="stylesheet" src="/js/login.js"></script>-->

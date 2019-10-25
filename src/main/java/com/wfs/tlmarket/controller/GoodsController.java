@@ -26,6 +26,11 @@ public class GoodsController {
     @Autowired
     private HttpSession session;
 
+    /**
+     * 搜索商品
+     * @param searchName
+     * @return
+     */
     @RequestMapping(value = "/search", method= RequestMethod.GET)
     public ModelAndView searchGoods(String searchName) {
 
@@ -35,6 +40,11 @@ public class GoodsController {
         return new ModelAndView("index");
     }
 
+    /**
+     * 首页显示的商品列表
+     * @param goodsType
+     * @return
+     */
     @RequestMapping(value = "/findGoodsList", method = RequestMethod.GET)
     public ModelAndView findGoodsList(int goodsType) {
 
@@ -44,5 +54,7 @@ public class GoodsController {
 
         return new ModelAndView("index");
     }
+
+
 
 }

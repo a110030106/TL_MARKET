@@ -3,6 +3,8 @@ package com.wfs.tlmarket.mapper;
 
 import com.wfs.tlmarket.models.UserInfo;
 
+import java.util.Date;
+
 public interface UserInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -15,4 +17,5 @@ public interface UserInfoMapper {
     int updateByPrimaryKeySelective(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);
+
 }

@@ -49,6 +49,7 @@ public class UserController {
         // 首页信息
         Response<List<GoodsInfo>> indexResponse = goodsService.selectGoodsInfoList(0);
         session.setAttribute(Constants.SESSION_GOODS_LIST, indexResponse);
+        System.out.println("session中的userInfo" + session.getAttribute("userInfo"));
        return new ModelAndView("index");
     }
 
@@ -87,7 +88,6 @@ public class UserController {
                 cookie.setValue(null);
                 cookie.setMaxAge(0);
                 httpServletResponse.addCookie(cookie);
-                System.out.println("删除cookie");
             }
         }
     }
@@ -104,13 +104,13 @@ public class UserController {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserName(userName);
         userInfo.setPassword(password);
-        Response response = userService.auth(userInfo);
+        Response<UserInfo> response = userService.auth(userInfo);
         // 本次的鉴权信息
         model.addAttribute(Constants.MODEL_RESPONSE, response);
         if (response.getIsSuccess()) {
             // 成功 存 cookie
             setCookie(httpResponse, userName, password);
-            session.setAttribute(Constants.SESSION_USER_INFO, userInfo);
+            session.setAttribute(Constants.SESSION_USER_INFO, response.getResult());
         }else {
             // 失败
             return new ModelAndView("login");
@@ -174,7 +174,6 @@ public class UserController {
         }
         // cookie中 存有账户密码
         if (count == 2) {
-            System.out.println("有用户 cookie");
             return userInfo;
         }
         return null;

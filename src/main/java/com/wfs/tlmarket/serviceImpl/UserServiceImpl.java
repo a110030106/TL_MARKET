@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Response register(UserInfo userInfo) {
+        System.out.println("运行");
         Response response = new Response();
         String userName = userInfo.getUserName();
         String password = userInfo.getPassword();
@@ -39,20 +40,23 @@ public class UserServiceImpl implements UserService {
             // 已存在
             response.setIsSuccess(false);
             response.setErrorMsg("用户已存在");
+            return response;
         }
         userInfo.setUserNo(SqeUtil.createUserNo());
         userInfo.setPassword(AESUtil.Encrypt(password));
         // todo 如果没有，随机分配昵称
         userInfo.setUserNickName(userNickName);
+        Date date = new Date();
         userInfo.setStatus((byte) 1);
         userInfo.setCreatedBy("王");
-        userInfo.setCreatedAt(new Date());
+        userInfo.setCreatedAt(date);
         userInfo.setUpdatedBy("王");
-        userInfo.setUpdatedAt(new Date());
-        int i = userInfoMapper.insertSelective(userInfo);
-        if (i != 1){
+        userInfo.setUpdatedAt(date);
+        try{
+            userInfoMapper.insertSelective(userInfo);
+        }catch (Exception e) {
             response.setIsSuccess(false);
-            response.setErrorMsg("其他原因，注册失败");
+            response.setErrorMsg("网络繁忙，请稍后");
         }
         return response;
     }
@@ -64,8 +68,8 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public Response auth(UserInfo userInfo) {
-        Response response = new Response();
+    public Response<UserInfo> auth(UserInfo userInfo) {
+        Response<UserInfo> response = new Response();
         String userName = userInfo.getUserName();
         String password = AESUtil.Encrypt(userInfo.getPassword());
         UserInfo checkUser = userInfoMapper.selectByUserName(userName);
@@ -79,7 +83,7 @@ public class UserServiceImpl implements UserService {
                 response.setErrorMsg("密码错误");
             }
         }
-
+        response.setResult(checkUser);
         return response;
     }
 }

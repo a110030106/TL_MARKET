@@ -11,6 +11,9 @@
         密码：  <input name="password" type="text" ><br>
         <input name="submit" type="submit" value="确定">
     </form>
+    <div th:if="${response} != null">
+        <p th:text="${response.getErrorMsg()}"></p>
+    </div>
 
 </body>
 </html>

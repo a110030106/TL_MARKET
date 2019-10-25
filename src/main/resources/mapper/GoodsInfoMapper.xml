@@ -61,6 +61,14 @@
     and STATUS = 1
   </select>
 
+  <select id="selectByGoodsNo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from M_GOODS_INFO
+    where GOODS_NO = #{goodsNo,jdbcType=VARCHAR}
+    and STATUS = 1
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from M_GOODS_INFO
     where ID = #{id,jdbcType=INTEGER}
