@@ -3,6 +3,7 @@ package com.wfs.tlmarket.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.Date;
 
 /**
  * 创建人：王福顺  创建时间：2019/10/23
@@ -26,6 +27,7 @@ public class MD5Util {
     }
 
     public static void main(String[] args) {
-        System.out.println(md5(""));
+//        System.out.println(md5(""));
+        System.out.println(new Date());
     }
 }

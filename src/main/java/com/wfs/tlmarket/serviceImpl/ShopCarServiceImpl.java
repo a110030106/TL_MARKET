@@ -41,19 +41,39 @@ public class ShopCarServiceImpl implements ShopCarService {
         List<ShopCarServiceResDto> resDtoList = new ArrayList<>();
         ShopCarServiceResDto shopCarServiceResponse;
         List<ShopCarGoods> shopCarGoodsList = shopCarMapper.selectByUserNo(userNo);
-        System.out.println("用户的购物车内容 : " + shopCarGoodsList);
         for (ShopCarGoods shopCarGoods : shopCarGoodsList) {
             shopCarServiceResponse = new ShopCarServiceResDto();
-            shopCarServiceResponse.setShopCarGoods(shopCarGoods);
+            // 构建 购物车信息
+            shopCarServiceResponse.setGoodsAmount(shopCarGoods.getGoodsAmount());
+            shopCarServiceResponse.setGoodsCount(shopCarGoods.getGoodsCount());
+            // 构建 商品信息
             GoodsInfo goodsInfo = goodsInfoMapper.selectByGoodsNo(shopCarGoods.getGoodsNo());
-            shopCarServiceResponse.setGoodsInfo(goodsInfo);
+            shopCarServiceResponse.setGoodsNo(goodsInfo.getGoodsNo());
+            shopCarServiceResponse.setGoodsName(goodsInfo.getGoodsName());
+            shopCarServiceResponse.setGoodsSpecify(goodsInfo.getGoodsSpecify());
+            shopCarServiceResponse.setGoodsPrice(goodsInfo.getGoodsPrice());
             resDtoList.add(shopCarServiceResponse);
         }
-        System.out.println("内容详情 : " + resDtoList);
         response.setResult(resDtoList);
         return response;
     }
 
+    /**
+     * 删除购物车 商品
+     * @param userNo
+     * @param goodsNo
+     * @return
+     */
+    @Override
+    public Response deleteGoodsByShopCar(String userNo, String goodsNo) {
+        Response response = new Response();
+        int result = shopCarMapper.updateDelete(userNo, goodsNo);
+        if (result != 1){
+            response.setIsSuccess(false);
+            response.setErrorMsg("删除购物车商品 错误");
+        }
+        return response;
+    }
 
     /**
      * 添加商品进 购物车
@@ -63,7 +83,6 @@ public class ShopCarServiceImpl implements ShopCarService {
     @Override
     @Transactional
     public Response addShopCar(ShopCarGoods newShopCarGoods) {
-        System.out.println("添加时的 userNo ： " + newShopCarGoods.getUserNo());
         Response response = new Response();
         ShopCarGoods oldShopCarGoods =  shopCarMapper.selectByUserNoAndGoodsNo(newShopCarGoods.getUserNo(), newShopCarGoods.getGoodsNo());
         Date date = new Date();
@@ -94,7 +113,7 @@ public class ShopCarServiceImpl implements ShopCarService {
             newShopCarGoods.setGoodsAmount(newAmount);
             newShopCarGoods.setUpdatedBy("王");
             newShopCarGoods.setUpdatedAt(date);
-
+            System.out.println("更新对象: " + newShopCarGoods);
             int i = shopCarMapper.updateByUserNoAndGoodsNo(newShopCarGoods);
             if (i != 1) {
                 response.setIsSuccess(false);
@@ -102,8 +121,17 @@ public class ShopCarServiceImpl implements ShopCarService {
                 response.setErrorMsg("网络异常，稍后再试");
             }
         }
-
         return response;
+    }
+
+    /**
+     * 购物车 结算
+     * @param shopCarGoodsList
+     * @return
+     */
+    @Override
+    public Response closeAccount(List<ShopCarGoods> shopCarGoodsList) {
+        return null;
     }
 
 }

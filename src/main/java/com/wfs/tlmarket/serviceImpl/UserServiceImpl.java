@@ -29,7 +29,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Response register(UserInfo userInfo) {
-        System.out.println("运行");
         Response response = new Response();
         String userName = userInfo.getUserName();
         String password = userInfo.getPassword();

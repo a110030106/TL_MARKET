@@ -149,8 +149,21 @@
         UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where ID = #{id,jdbcType=INTEGER}
+    where USER_NO = #{userNo,jdbcType=VARCHAR}
+    and GOODS_NO = #{goodsNo,jdbcType=VARCHAR}
+    and STATUS = 1
   </update>
+
+  <update id="updateDelete">
+    update M_SHOP_CAR
+    set
+      STATUS = 0,
+      UPDATED_AT = now()
+    where USER_NO = #{userNo,jdbcType=VARCHAR}
+    and  GOODS_NO = #{goodsNo,jdbcType=VARCHAR}
+  </update>
+
+
 
   <update id="updateByPrimaryKey" parameterType="com.wfs.tlmarket.models.ShopCarGoods">
     update M_SHOP_CAR

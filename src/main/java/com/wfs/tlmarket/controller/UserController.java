@@ -43,13 +43,12 @@ public class UserController {
         // 检查cookie中 有无账户信息
         UserInfo userInfo = checkCookieUserName();
         if (null != userInfo) {
-            System.out.println("有账号信息");
             auth(userInfo.getUserName(), userInfo.getPassword(), httpResponse, model);
         }
         // 首页信息
         Response<List<GoodsInfo>> indexResponse = goodsService.selectGoodsInfoList(0);
         session.setAttribute(Constants.SESSION_GOODS_LIST, indexResponse);
-        System.out.println("session中的userInfo" + session.getAttribute("userInfo"));
+        System.out.println("session中的userInfo ： " + session.getAttribute("userInfo"));
        return new ModelAndView("index");
     }
 
@@ -110,6 +109,7 @@ public class UserController {
         if (response.getIsSuccess()) {
             // 成功 存 cookie
             setCookie(httpResponse, userName, password);
+            // 存 cession
             session.setAttribute(Constants.SESSION_USER_INFO, response.getResult());
         }else {
             // 失败

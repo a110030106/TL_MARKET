@@ -6,19 +6,59 @@
 </head>
 <body>
 
+
     <div th:each="goodsByShopCar:${shopCarResponse?.result}" >
-        商品名：    <span th:text="${goodsByShopCar.goodsInfo.goodsName}"></span> <br>
-        商品规格：  <span th:text="${goodsByShopCar.goodsInfo.goodsSpecify}"></span> <br>
-        商品单价：  <span th:text="${goodsByShopCar.goodsInfo.goodsPrice}"></span> <br>
-        数量：      <span th:text="${goodsByShopCar.shopCarGoods.goodsCount}"></span> <br>
-        商品总价：  <span th:text="${goodsByShopCar.shopCarGoods.goodsAmount}"></span> <br>
+        商品名：    <span th:text="${goodsByShopCar.goodsName}"></span> <br>
+        商品规格：  <span th:text="${goodsByShopCar.goodsSpecify}"></span> <br>
+        商品单价：  <span th:text="${goodsByShopCar.goodsPrice}"></span> <br>
+        数量：      <span th:text="${goodsByShopCar.goodsCount}"></span> <br>
+        商品总价：  <span th:text="${goodsByShopCar.goodsAmount}"></span> <br>
+        <a th:href="'/deleteGoods?goodsNo=' + ${goodsByShopCar.goodsNo}" >删除</a>
         <br>
         <br>
     </div>
+    <br>
+
+    电话：<input id="phone" type="text"  />
+    <input id="closeAccount" type="button" value="结算" />
 
 
 
+    <!-- 页脚区 -->
+    <div>
+        <h2>页脚区</h2>
+        <a href="/">首页</a> &nbsp
+        <a href="#">我的优惠券</a> &nbsp
+        <a href="/shopCar">购物车</a> &nbsp
+        <a href="#">我的订单</a> &nbsp
+    </div>
 
+    <script type="text/javascript" rel="stylesheet" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script th:inline="javascript" type="text/javascript" >
+        // 获取电话
+        var phone = $('#phone');
+
+        var closeAccount = $('#closeAccount');
+        var shopCarServiceResDto = [[${shopCarResponse.result}]];
+
+        console.log(JSON.stringify(shopCarServiceResDto));
+        closeAccount.on('click', function () {
+            // 将电话 添加到 第一个对象中
+            shopCarServiceResDto[0].orderPhone = phone.val();
+            $.ajax({
+                url : "/closeAccount",
+                type : "post",
+                // dataType : "json",
+                data : "shopCarServiceResDto=" + JSON.stringify(shopCarServiceResDto),
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function () {
+                    alert("fail")
+                }
+            })
+        })
+    </script>
 
 </body>
 </html>

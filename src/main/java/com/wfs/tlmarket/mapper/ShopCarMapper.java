@@ -20,6 +20,7 @@ public interface ShopCarMapper {
     List<ShopCarGoods> selectByUserNo(String userNo);
 
     int updateByUserNoAndGoodsNo(ShopCarGoods record);
+    int updateDelete(@Param("userNo") String userNo, @Param("goodsNo") String goodsNo);
 
     int updateByPrimaryKeySelective(ShopCarGoods record);
     int updateByPrimaryKey(ShopCarGoods record);

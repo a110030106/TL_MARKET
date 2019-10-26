@@ -10,9 +10,18 @@
         用户名：<input name="userName" type="text" /><br>
         密码：  <input name="password" type="text" ><br>
         <input name="submit" type="submit" value="确定">
+        <a href="/login" >返回登录</a>>
     </form>
-    <div th:if="${response} != null">
-        <p th:text="${response.getErrorMsg()}"></p>
+
+    <p th:text="${response?.errorMsg}"></p>
+
+    <!-- 页脚区 -->
+    <div>
+        <h2>页脚区</h2>
+        <a href="/">首页</a> &nbsp
+        <a href="#">我的优惠券</a> &nbsp
+        <a href="/shopCar">购物车</a> &nbsp
+        <a href="#">我的订单</a> &nbsp
     </div>
 
 </body>

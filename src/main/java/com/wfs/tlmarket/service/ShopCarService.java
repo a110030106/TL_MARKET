@@ -27,4 +27,20 @@ public interface ShopCarService {
      */
     public Response<List<ShopCarServiceResDto>> showShopCar(String userNo);
 
+    /**
+     * 删除购物车内的 商品
+     * @param userNo
+     * @param goodsNo
+     * @return
+     */
+    public Response deleteGoodsByShopCar(String userNo, String goodsNo);
+
+    /**
+     * 结算购物车
+     * @param shopCarGoodsList
+     * @return
+     */
+    public Response closeAccount(List<ShopCarGoods> shopCarGoodsList);
+
+
 }
