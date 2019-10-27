@@ -13,6 +13,8 @@ public class OrderInfo {
 
     private String orderNo;
 
+    private String userNo;
+
     private String goodsNo;
 
     private BigDecimal goodsCount;

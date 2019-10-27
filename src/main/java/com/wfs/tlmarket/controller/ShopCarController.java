@@ -2,8 +2,11 @@ package com.wfs.tlmarket.controller;
 
 
 import com.google.gson.reflect.TypeToken;
+import com.wfs.tlmarket.constants.Constants;
+import com.wfs.tlmarket.models.OrderInfo;
 import com.wfs.tlmarket.models.ShopCarGoods;
 import com.wfs.tlmarket.models.UserInfo;
+import com.wfs.tlmarket.service.OrderService;
 import com.wfs.tlmarket.service.ShopCarService;
 import com.wfs.tlmarket.service.response.Response;
 import com.wfs.tlmarket.service.response.ShopCarServiceResDto;
@@ -29,6 +32,9 @@ public class ShopCarController {
     private ShopCarService shopCarService;
 
     @Autowired
+    private OrderService orderService;
+
+    @Autowired
     private HttpSession session;
 
 
@@ -45,6 +51,9 @@ public class ShopCarController {
         Response response = new Response();
         ModelAndView modelAndView = new ModelAndView();
         if (null == userNo  ||  "".equals(userNo)) {
+            // todo 如果未登录 添加商品
+            // todo 则  1、新建用户信息（包括 用户编号、用户名（游客_ + 昵称）、昵称、权限（5）））
+            // todo     2、新建购物车信息
             response.setErrorMsg("未登录");
             modelAndView.setViewName("login");
         }
@@ -95,15 +104,20 @@ public class ShopCarController {
      * @return
      */
     @RequestMapping(value = "/closeAccount", method = RequestMethod.POST)
-    public ModelAndView closeAccount(String shopCarServiceResDto) {
-        System.out.println("1 ： " + shopCarServiceResDto);
+    public ModelAndView closeAccount(String shopCarServiceResDto, Model model) {
+        // 解析 json
         List<ShopCarServiceResDto> shopCarServiceResDtoList = GsonUtil.fromJson(shopCarServiceResDto, new TypeToken<List<ShopCarServiceResDto>>() {}.getType());
         System.out.println("看看： " + shopCarServiceResDtoList);
-        // todo   doing
-        // 1生成订单
-        // 2删除购物车内容
-        // 3下单提醒
-        return null;
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSION_USER_INFO);
+        Response response = orderService.createOrder(userInfo.getUserNo(), shopCarServiceResDtoList);
+        model.addAttribute(Constants.MODEL_RESPONSE, response);
+        ModelAndView modelAndView = new ModelAndView();
+        if (!response.getIsSuccess()) {
+            modelAndView.setViewName("shopCar");
+            return modelAndView;
+        }
+        modelAndView.setViewName("myOrders");
+        return modelAndView;
     }
 
 }

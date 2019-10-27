@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 @ToString
-public class UserOrder {
+public class UserVsOrder {
     private Integer id;
 
     private String orderNo;

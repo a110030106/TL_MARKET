@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wfs.tlmarket.mapper.UserOrderMapper">
-  <resultMap id="BaseResultMap" type="com.wfs.tlmarket.models.UserOrder">
+  <resultMap id="BaseResultMap" type="com.wfs.tlmarket.models.UserVsOrder">
     <id column="ID" jdbcType="INTEGER" property="id" />
     <result column="ORDER_NO" jdbcType="VARCHAR" property="orderNo" />
     <result column="USER_NO" jdbcType="VARCHAR" property="userNo" />
@@ -21,15 +21,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from M_USER_ORDER
+    from M_USER_VS_ORDER
     where ID = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from M_USER_ORDER
+    delete from M_USER_VS_ORDER
     where ID = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wfs.tlmarket.models.UserOrder">
-    insert into M_USER_ORDER (ID, ORDER_NO, USER_NO, 
+  <insert id="insert" parameterType="com.wfs.tlmarket.models.UserVsOrder">
+    insert into M_USER_VS_ORDER (ID, ORDER_NO, USER_NO,
       ORDER_STATUS, ORDER_DISCOUNTS_NO, ORDER_AMOUNT, 
       STATUS, CREATED_BY, CREATED_AT, 
       UPDATED_BY, UPDATED_AT)
@@ -38,8 +38,8 @@
       #{status,jdbcType=TINYINT}, #{createdBy,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP},
       #{updatedBy,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.wfs.tlmarket.models.UserOrder">
-    insert into M_USER_ORDER
+  <insert id="insertSelective" parameterType="com.wfs.tlmarket.models.UserVsOrder">
+    insert into M_USER_VS_ORDER
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -111,8 +111,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wfs.tlmarket.models.UserOrder">
-    update M_USER_ORDER
+  <update id="updateByPrimaryKeySelective" parameterType="com.wfs.tlmarket.models.UserVsOrder">
+    update M_USER_VS_ORDER
     <set>
       <if test="orderNo != null">
         ORDER_NO = #{orderNo,jdbcType=VARCHAR},
@@ -147,8 +147,8 @@
     </set>
     where ID = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wfs.tlmarket.models.UserOrder">
-    update M_USER_ORDER
+  <update id="updateByPrimaryKey" parameterType="com.wfs.tlmarket.models.UserVsOrder">
+    update M_USER_VS_ORDER
     set ORDER_NO = #{orderNo,jdbcType=VARCHAR},
       USER_NO = #{userNo,jdbcType=VARCHAR},
       ORDER_STATUS = #{orderStatus,jdbcType=BIT},

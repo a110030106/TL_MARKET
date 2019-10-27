@@ -1,19 +1,19 @@
 package com.wfs.tlmarket.mapper;
 
 
-import com.wfs.tlmarket.models.UserOrder;
+import com.wfs.tlmarket.models.UserVsOrder;
 
 public interface UserOrderMapper {
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(UserOrder record);
+    int insert(UserVsOrder record);
 
-    int insertSelective(UserOrder record);
+    int insertSelective(UserVsOrder record);
 
-    UserOrder selectByPrimaryKey(Integer id);
+    UserVsOrder selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(UserOrder record);
+    int updateByPrimaryKeySelective(UserVsOrder record);
 
-    int updateByPrimaryKey(UserOrder record);
+    int updateByPrimaryKey(UserVsOrder record);
 }
